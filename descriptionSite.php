@@ -11,40 +11,36 @@
     <link href="https://fonts.googleapis.com/css?family=Suez+One|Vidaloka&display=swap" rel="stylesheet">
   </head>
   <body>
-    <a href="index.php"> Retour </a>
+    <a href="SiteDeco.php"> Retour </a>
         <?php
-            // display description on site where user have click
             $id=$_GET['site'];
-            include('connectdb.php');
-            $sql = "SELECT id_site, site_description, site_altitude,site_name, site_location, site_latitude, site_longitude,
-            site_favourable_winds, site_unfavourable_winds, site_picture FROM site WHERE id_site = $id";
-            $requete = $db->prepare($sql);            
-            $status = $requete->execute();
-            if (!$status) {
-                print_r($requete->errorInfo());
+            require_once('GestionSite.php');
+            GestionSite::$db = $db;
+            $sites = new GestionSite();
+            $data = $sites->displaySite("SELECT * FROM site WHERE id_site = $id"); 
+            foreach($data as $site) { 
+            ?>
+                <section id="displayDescriptionSite">
+                    <div>
+                        <?php 
+                        echo '<img src="'. $site->getPicture() . '"/>';
+                        ?>
+                    </div>
+                    <div id="featuresSite">
+                        <h1><?php echo ucfirst($site->getName()); ?> - 
+                        <?php echo ucfirst($site->getLocation()); ?></h1> 
+                        <?php echo utf8_encode($site->getDescription());
+                         echo '<p> Altitude :'.$site->getAltitude().' </p> ';
+                         echo '<p> Latitude :'.$site->getLatitude().' </p> ';
+                         echo '<p> Longitude :'.$site->getLongitude().' </p> ';
+                         echo '<p> Vents favorables :'. $site->getFavourableWinds().'</p>';
+                         echo '<p> Vents défavorables: '. $site->getUnfavourableWinds().'</p>';
+                        ?>
+                    </div>
+            <?php
             }
-            while ($donnees = $requete->fetch()) {
-        ?>
-        <section id="displayDescriptionSite">
-            <div>
-                <?php 
-                    echo '<img src="'. $donnees["site_picture"] . '"/>';
-                ?>
-            </div>
-            <div id="featuresSite">
-                <h1><?php echo ucfirst($donnees["site_name"]); ?> - 
-                <?php echo ucfirst($donnees["site_location"]); ?></h1>    
-                <?php echo utf8_encode($donnees["site_description"]);
-                echo '<p> Altitude :'.$donnees["site_altitude"].' </p> ';
-                echo '<p> Latitude :'.$donnees["site_latitude"].' </p> ';
-                echo '<p> Longitude :'.$donnees["site_longitude"].' </p> ';
-                echo '<p> Vents favorables :'. $donnees["site_favourable_winds"].'</p>';
-                echo '<p> Vents défavorables: '. $donnees["site_unfavourable_winds"].'</p>';
-            } 
-                $requete->closeCursor();
-                ?>
-            </div>
-        </section>
+            ?>
+                </section>
             <?php
                 include('connectdb.php');
                 $sql = "SELECT id_site, id_site_landing, site_landing_name, site_landing_description

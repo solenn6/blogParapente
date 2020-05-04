@@ -54,29 +54,24 @@
     <h2> Les différents sites de décollage </h2>
     <?php
         //display picture, name, location for three site for more site click on see more
-        include('connectdb.php');
-        $sql = "SELECT id_site, site_name, site_location, site_picture FROM site LIMIT 3";
-        $requete = $db->prepare($sql);            
-        $status = $requete->execute();
-        if (!$status) {
-            print_r($requete->errorInfo());
-            }
-        while ($donnees = $requete->fetch()) {
-        ?>
+        require_once('GestionSite.php');
+        GestionSite::$db = $db;
+        $sites = new GestionSite();
+        $data = $sites->displaySite('SELECT * FROM site LIMIT 3'); 
+        foreach($data as $site) { 
+            ?>
         <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6" id="pictureSite">
-          <?php 
-            $variable=$donnees["id_site"];
-            echo '<a href="descriptionSite.php?site='. $donnees['id_site'].'"><img src="'. $donnees["site_picture"] . '"class="img-responsive"/></a>';
-          ?>
-          <div class="caption">
-            <h4><?php echo ucfirst($donnees["site_name"]); ?> - 
-            <?php echo ucfirst($donnees["site_location"]); ?></h4>
-          </div> 
+        <?php 
+            echo '<a href="descriptionSite.php?site='. $site->getIdSite().'"><img src="'. $site->getPicture() . '"class="img-responsive"/></a>';
+        ?>
+            <div class="caption">
+                <h4><?php echo ucfirst($site->getName()); ?> - 
+                <?php echo ucfirst( $site->getLocation()); ?></h4>
+            </div> 
         </div>
         <?php
-        } 
-        $requete->closeCursor();
-    ?>
+    }
+    ?>      
     <a href="siteDeco.php"> Voir plus </a>
   </body>
 </html>

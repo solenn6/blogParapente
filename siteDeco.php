@@ -17,30 +17,24 @@
     </header>
     <section>
         <?php
-            // display all Site include in db
-            include('connectdb.php');
-            $sql = "SELECT id_site, site_name, site_location, site_picture FROM site";
-            $requete = $db->prepare($sql);            
-            $status = $requete->execute();
-            if (!$status) {
-                print_r($requete->errorInfo());
-                }
-            while ($donnees = $requete->fetch()) {
-            ?>
-            <div class="col-md-4">
-                <div class="thumbnail">
+            require_once('GestionSite.php');
+            GestionSite::$db = $db;
+            $sites = new GestionSite();
+            $data = $sites->displaySite('SELECT * FROM site'); 
+            foreach($data as $site) { 
+                ?>
+                <div class="col-md-4">
+                    <div class="thumbnail">
                     <?php 
-                        $variable=$donnees["id_site"];
-                        echo '<a href="descriptionSite.php?site='. $donnees['id_site'].'"><img src="'. $donnees["site_picture"] . '"style="width:100%"/></a>';
+                    echo '<a href="descriptionSite.php?site='. $site->getIdSite().'"><img src="'. $site->getPicture() . '"style="width:100%"/></a>';
                     ?>
-                    <div class="caption">
-                        <h4><?php echo ucfirst($donnees["site_name"]); ?> - 
-                        <?php echo ucfirst($donnees["site_location"]); ?></h4>
+                        <div class="caption">
+                            <h4><?php echo ucfirst($site->getName()); ?> - 
+                            <?php echo ucfirst( $site->getLocation()); ?></h4>
+                        </div> 
                     </div>
-                </div> 
-            </div>
+                </div>
             <?php
-            } 
-            $requete->closeCursor();
-        ?>
+            }
+            ?>
     </section>
