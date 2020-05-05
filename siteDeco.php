@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <title>Blog de Parapente</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" media="screen" href="css/style.css"> 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Suez+One|Vidaloka&display=swap" rel="stylesheet">
-  </head>
+   <?php include('header.php'); ?> 
   <body>
     <header>
         <h1> Les sites de décollages </h1>
     </header>
     <section>
+        <div id="filtre">
+            <h3> Filtrer par:</h3>
+            <button class="btn btn-default filter-button" data-filter="all">All</button>
+            <button class="btn btn-default filter-button" data-filter="Bretagne">Bretagne</button>
+            <button class="btn btn-default filter-button" data-filter="Normandie">Normandie</button>
+            <button class="btn btn-default filter-button" data-filter="Loire">Pays de la Loire</button>
+            <button class="btn btn-default filter-button" data-filter="Est">Grand Est </button>
+            <button class="btn btn-default filter-button" data-filter="Occitanie">Occitanie</button>
+            <button class="btn btn-default filter-button" data-filter="Aquitaine"> Nouvelle Aquitaine </button>
+            <button class="btn btn-default filter-button" data-filter="Hauts-de-France">Hauts-de-France</button>
+            <button class="btn btn-default filter-button" data-filter="Centre">Centre-Val de Loire </button>
+            <button class="btn btn-default filter-button" data-filter="Bourgogne">Bourgogne-Franche-Comté</button>
+            <button class="btn btn-default filter-button" data-filter="Auvergne">Auvergne-Rhône-Alpes</button>
+            <button class="btn btn-default filter-button" data-filter="Paca">Provence-Alpes-Côte d'Azur </button>
+        </div>
+        <script src="jss/script.js"></script>
         <?php
             require_once('GestionSite.php');
-            GestionSite::$db = $db;
             $sites = new GestionSite();
             $data = $sites->displaySite('SELECT * FROM site'); 
             foreach($data as $site) { 
                 ?>
-                <div class="col-md-4">
+                <div class="col-md-4 filter <?php echo $site->getRegion();?>  ">
                     <div class="thumbnail">
                     <?php 
                     echo '<a href="descriptionSite.php?site='. $site->getIdSite().'"><img src="'. $site->getPicture() . '"style="width:100%"/></a>';
                     ?>
                         <div class="caption">
                             <h4><?php echo ucfirst($site->getName()); ?> - 
-                            <?php echo ucfirst( $site->getLocation()); ?></h4>
+                            <?php echo ucfirst( $site->getLocation())?> <?php echo $site->getRegion(); ?>
+                            </h4>
                         </div> 
                     </div>
                 </div>

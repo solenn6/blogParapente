@@ -3,19 +3,12 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Blog de Parapente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" media="screen" href="css/style.css"> 
-    <link href="https://fonts.googleapis.com/css?family=Suez+One|Vidaloka&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <a href="SiteDeco.php"> Retour </a>
+    <?php include("header.php"); ?>
+    <body>
+        <a href="SiteDeco.php"> Retour </a>
         <?php
             $id=$_GET['site'];
             require_once('GestionSite.php');
-            GestionSite::$db = $db;
             $sites = new GestionSite();
             $data = $sites->displaySite("SELECT * FROM site WHERE id_site = $id"); 
             foreach($data as $site) { 
@@ -42,29 +35,22 @@
             ?>
                 </section>
             <?php
-                include('connectdb.php');
-                $sql = "SELECT id_site, id_site_landing, site_landing_name, site_landing_description
-                FROM site_landing WHERE id_site = $id";
-                $requete = $db->prepare($sql);            
-                $status = $requete->execute();
-                if (!$status) {
-                    print_r($requete->errorInfo());
-                }
-                while ($donnees = $requete->fetch()) {
+                $sites = new GestionSite();
+                $data = $sites->displayLandingSite("SELECT * FROM site_landing WHERE id_site = $id"); 
+                foreach($data as $site) { 
             ?>
             <div id="descriptionLandingSite">
-                <h2>Piste d'atterrissage  <?php echo ucfirst($donnees["site_landing_name"]); ?></h2> 
-                <?=utf8_encode($donnees["site_landing_description"]);
+                <h2>Piste d'atterrissage  <?php echo ucfirst($site->getName()); ?></h2> 
+                <?=utf8_encode($site->getDescription());
+                }
                 ?>
             </div>
-            <?php
-                }
-                $requete->closeCursor();
-            ?>
         </section>
-        <h3 id="shareExperience"> Partager une expérience </h3>
-        <form id="uploadExperienceForm" action="upload.php?site=<?php echo $id; ?>" method="post" enctype="multipart/form-data" target="result_frame">
-            <input type='text' name='pseudo' placeholder="pseudo">
+        <h3> Les Expériences partagés </h3>
+        <h4 id="shareExperience"> Partager une expérience </h4>
+        <form action="upload.php" method="POST" enctype="multipart/form-data">
+            <input type="text" name="pseudo" placeholder="pseudo">
+            <input type="hidden" name="site" value="<?php echo $id;?>">
             <textarea name="content" placeholder="votre expérience"> </textarea>
             <input type="file" name="file" id="file">
             <button id="submit-button" class="btn btn-primary" onclick="upload()">Upload</button>
