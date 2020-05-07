@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <title>Blog de Parapente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" media="screen" href="css/style.css"> 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Suez+One|Vidaloka&display=swap" rel="stylesheet">
-  </head>
+  <?php include('header.php');?>
   <body>
     <header>
         <section id="titleWebsite">
@@ -17,7 +8,6 @@
                 <img src="img/parapente.png" alt="logoParapente">
                 <h1> Le Blog du Parapente </h1>
             </div>
-            <a href="pagetest.php"> Page Test </a>
         </section>
     </header>
     <section id="carousel">
@@ -27,7 +17,6 @@
                 <div class="item active">
                     <img src="img/actu.jpg" alt="flyer competition">
                 </div>
-
                 <div class="item">
                     <img src="img/actu2.jpg" alt="view Annecy's lake">
                 </div>
@@ -54,8 +43,7 @@
     <h2> Les différents sites de décollage </h2>
     <?php
         //display picture, name, location for three site for more site click on see more
-        require_once('GestionSite.php');
-        GestionSite::$db = $db;
+        require_once('class/GestionSite.php');
         $sites = new GestionSite();
         $data = $sites->displaySite('SELECT * FROM site LIMIT 3'); 
         foreach($data as $site) { 

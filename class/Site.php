@@ -9,6 +9,7 @@ class Site {
   protected $_description;
   protected $_altitude;
   protected $_latitude;
+  protected $_filtreAltitude;
   protected $_longitude;
   protected $_picture;
   protected $_favourableWinds;
@@ -38,6 +39,10 @@ class Site {
   public function getDescription()
   {
     return $this->_description;
+  }
+  public function getFiltreAltitude()
+  {
+      return $this->_filtreAltitude;
   }
   public function getAltitude()
   {
@@ -154,5 +159,9 @@ class Site {
     public function setDate($_date)
     {
         $this->_date = $_date;
+    }
+    public function setFiltreAltitude($_filtreAltitude)
+    {
+        $this->_filtreAltitude = $_filtreAltitude;
     }
 }  

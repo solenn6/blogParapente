@@ -47,6 +47,7 @@ class GestionSite extends Site{
             $sites->setFavourableWinds($site["site_favourable_winds"]);
             $sites->setUnfavourableWinds($site["site_unfavourable_winds"]);
             $sites->setRegion($site["site_region"]);
+            $sites->setFiltreAltitude($site["site_filtre_altitude"]);
             array_push($data,$sites);
 
         }

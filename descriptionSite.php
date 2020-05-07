@@ -48,13 +48,14 @@
         </section>
         <h3> Les Expériences partagés </h3>
         <h4 id="shareExperience"> + Ajouter une expérience </h4>
-        <form action="upload.php" method="POST" enctype="multipart/form-data">
-            <input type="text" name="pseudo" placeholder="pseudo" class="field">
+        <form id="formExp" action="upload.php" method="POST" enctype="multipart/form-data" onsubmit="return checkForm(this)">
+            <input type="text" name="pseudo" placeholder="pseudo" class="field" onfocus="checkPseudo(this)">
             <input type="hidden" name="site" value="<?php echo $id;?>">
-            <textarea name="content" placeholder="votre expérience" class="field"> </textarea>
+            <textarea name="content" placeholder="votre expérience" class="field" onfocus="checkContent(this)"> </textarea>
             <input type="file" name="file" id="file" class="field">
             <button id="submit-button" class="btn btn-primary" id="buttonUpload">Upload</button>
         </form>
+        <script src="js/script.js"></script>
         <?php
         $sites = new GestionSite();
         $data = $sites->displayExperience("SELECT * FROM experience_comment WHERE id_site = $id");
@@ -64,9 +65,9 @@
             <p><?php echo ucfirst($site->getName()); ?> </p>
             <p> <?php echo $site->getDate();?> </p>
             <p> <?php echo $site->getDescription(); ?></p>
-            <?php echo '<img src="' . $site->getPicture() . '"/>';
-
-            }
+            <?php
+                echo '<img src="' . $site->getPicture() . '"/>';
+        }
             ?>
     <body>
 <html>
