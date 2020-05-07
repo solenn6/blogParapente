@@ -8,7 +8,7 @@
         <a href="SiteDeco.php"> Retour </a>
         <?php
             $id=$_GET['site'];
-            require_once('GestionSite.php');
+            require_once('class/GestionSite.php');
             $sites = new GestionSite();
             $data = $sites->displaySite("SELECT * FROM site WHERE id_site = $id"); 
             foreach($data as $site) { 
@@ -19,7 +19,7 @@
                         echo '<img src="'. $site->getPicture() . '"/>';
                         ?>
                     </div>
-                    <div id="featuresSite">
+                    <div id="descriptionSite">
                         <h1><?php echo ucfirst($site->getName()); ?> - 
                         <?php echo ucfirst($site->getLocation()); ?></h1> 
                         <?php echo utf8_encode($site->getDescription());
@@ -47,14 +47,27 @@
             </div>
         </section>
         <h3> Les Expériences partagés </h3>
-        <h4 id="shareExperience"> Partager une expérience </h4>
+        <h4 id="shareExperience"> + Ajouter une expérience </h4>
         <form action="upload.php" method="POST" enctype="multipart/form-data">
-            <input type="text" name="pseudo" placeholder="pseudo">
+            <input type="text" name="pseudo" placeholder="pseudo" class="field">
             <input type="hidden" name="site" value="<?php echo $id;?>">
-            <textarea name="content" placeholder="votre expérience"> </textarea>
-            <input type="file" name="file" id="file">
-            <button id="submit-button" class="btn btn-primary" onclick="upload()">Upload</button>
+            <textarea name="content" placeholder="votre expérience" class="field"> </textarea>
+            <input type="file" name="file" id="file" class="field">
+            <button id="submit-button" class="btn btn-primary" id="buttonUpload">Upload</button>
         </form>
+        <?php
+        $sites = new GestionSite();
+        $data = $sites->displayExperience("SELECT * FROM experience_comment WHERE id_site = $id");
+        foreach($data as $site) {
+        ?>
+        <div id="displayExperience">
+            <p><?php echo ucfirst($site->getName()); ?> </p>
+            <p> <?php echo $site->getDate();?> </p>
+            <p> <?php echo $site->getDescription(); ?></p>
+            <?php echo '<img src="' . $site->getPicture() . '"/>';
+
+            }
+            ?>
     <body>
 <html>
       

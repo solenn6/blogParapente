@@ -5,13 +5,15 @@ class Site {
   protected $_idSite;
   protected $_name;
   protected $_location;
+  protected $_region;
   protected $_description;
+  protected $_altitude;
   protected $_latitude;
   protected $_longitude;
   protected $_picture;
   protected $_favourableWinds;
   protected $_unfavourableWinds;
-  protected $_pseudo;
+  protected $_date;
   // Liste des getters pour Site decollage 
   public function getIdSite()
   {
@@ -25,6 +27,10 @@ class Site {
   {
     return $this->_location;
   }
+  public function getRegion()
+  {
+      return $this->_region;
+  }
   public function getPicture()
   {
     return $this->_picture;
@@ -32,6 +38,10 @@ class Site {
   public function getDescription()
   {
     return $this->_description;
+  }
+  public function getAltitude()
+  {
+    return $this->_altitude;
   }
   public function getLatitude()
   {
@@ -49,18 +59,26 @@ class Site {
   {
     return $this->_unfavourableWinds;
   }
-  public function getPseudo()
+  public function getDate()
   {
-    return $this->_pseudo;
+        return $this->_date;
   }
 
   // Liste des setters
-  public function setIdSite($_idSite)
+  public function setId($_id)
   {
     $_id = (int) $_id;
     if ($_id > 0)
     {
       $this->_id = $_id;
+    }
+  }
+  public function setIdSite($_idSite)
+  {
+    $_idSite = (int) $_idSite;
+    if ($_idSite > 0)
+    {
+      $this->_idSite = $_idSite;
     }
   }
   public function setName($_name)
@@ -77,11 +95,26 @@ class Site {
       $this->_location = $_location;
     }
   }
+    public function setRegion($_region)
+    {
+        if (is_string($_region))
+        {
+            $this->_region = $_region;
+        }
+    }
   public function setDescription($_description)
   {
     if (is_string($_description))
     {
       $this->_description = $_description;
+    }
+  }
+  public function setAltitude($_altitude)
+  {
+    $_altitude = (float) $_altitude;
+    if ($_altitude > 0)
+    {
+      $this->_altitude = $_altitude;
     }
   }
   public function setLatitude($_latitude)
@@ -118,11 +151,8 @@ class Site {
       $this->_unfavourableWinds = $_unfavourableWinds;
     }
   }
-  public function setPseudo($_pseudo)
-  {
-    if (is_string($_pseudo))
+    public function setDate($_date)
     {
-      $this->_pseudo = $_pseudo;
+        $this->_date = $_date;
     }
-  }
 }  
