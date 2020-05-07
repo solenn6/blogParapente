@@ -1,7 +1,7 @@
 <?php
     try
     {
-        include('identifiant.php');
+        include('conf.php');
         
         $db = new PDO("$techno:$location;dbname=$dbname;", $user, $password);
     }
